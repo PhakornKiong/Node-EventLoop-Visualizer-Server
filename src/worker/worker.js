@@ -90,5 +90,5 @@ let modifiedSource = babel.transformSync(jsSourceCode.toString(), {
     traceLoops,
   ],
 }).code;
-console.log(modifiedSource);
+
 vm.run(modifiedSource);

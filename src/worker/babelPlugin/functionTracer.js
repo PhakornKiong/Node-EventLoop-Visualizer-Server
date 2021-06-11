@@ -89,7 +89,7 @@ const traceFunction = (babel) => {
       t.isTryStatement(path.node.body.body[0]) &&
       t.isBlockStatement(path.node.body.body[0].block)
     ) {
-      console.log(_.isEqual(path.node.body.body[0].block.body[0], tracerEnter));
+      // console.log(_.isEqual(path.node.body.body[0].block.body[0], tracerEnter));
       return;
     }
     // Clear the existing body
