@@ -6,8 +6,8 @@ Produces events for code submitted by https://node-event-loop.herokuapp.com/. Th
 
 Notable Feature Added:
 + Support Node.js native API such as `setImmediate` & `process.nextTick`
++ Support `async-await`
 + Uses Babel plugin to traverse AST and transform code
-
 
 Improvement based on work from [Hopding](https://github.com/Hopding/). & [Loupe](http://latentflip.com/loupe/).
 
