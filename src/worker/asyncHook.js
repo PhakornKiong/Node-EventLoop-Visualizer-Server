@@ -6,6 +6,7 @@ function debug(...args) {
 }
 const asyncIdToResource = {};
 const init = (asyncId, type, triggerAsyncId, resource) => {
+  debug(`asyncId:${asyncId}, type:${type}, taid:${triggerAsyncId}, resource:`,resource);
   asyncIdToResource[asyncId] = resource;
   if (type === 'PROMISE') {
     postEvent(Events.InitPromise(asyncId, triggerAsyncId));
@@ -45,7 +46,7 @@ const init = (asyncId, type, triggerAsyncId, resource) => {
 const before = (asyncId) => {
   const resource = asyncIdToResource[asyncId] || {};
   const resourceName = resource.constructor.name;
-  if (resourceName === 'PromiseWrap') {
+  if (resourceName === 'Promise') {
     postEvent(Events.BeforePromise(asyncId));
   }
   if (resourceName === 'Timeout') {
@@ -56,22 +57,22 @@ const before = (asyncId) => {
     const callbackName = resource._onImmediate.name || 'anonymous';
     postEvent(Events.BeforeImmediate(asyncId, callbackName));
   }
-  if (
-    resourceName === 'Object' &&
-    resource.callback &&
-    resource.callback.name !== 'maybeReadMore_' &&
-    resource.callback.name !== 'afterWriteTick' &&
-    resource.callback.name !== 'onSocketNT' &&
-    resource.callback.name !== 'initRead' &&
-    resource.callback.name !== 'emitReadable_' &&
-    resource.callback.name !== 'emitCloseNT' &&
-    resource.callback.name !== 'endReadableNT' &&
-    resource.callback.name !== 'finish' &&
-    resource.callback.name !== 'resume_'
-  ) {
-    const callbackName = resource.callback.name || 'anonymous';
-    postEvent(Events.BeforeMicrotask(asyncId, callbackName));
-  }
+  // if (
+  //   resourceName === 'Object' &&
+  //   resource.callback &&
+  //   resource.callback.name !== 'maybeReadMore_' &&
+  //   resource.callback.name !== 'afterWriteTick' &&
+  //   resource.callback.name !== 'onSocketNT' &&
+  //   resource.callback.name !== 'initRead' &&
+  //   resource.callback.name !== 'emitReadable_' &&
+  //   resource.callback.name !== 'emitCloseNT' &&
+  //   resource.callback.name !== 'endReadableNT' &&
+  //   resource.callback.name !== 'finish' &&
+  //   resource.callback.name !== 'resume_'
+  // ) {
+  //   const callbackName = resource.callback.name || 'anonymous';
+  //   postEvent(Events.BeforeMicrotask(asyncId, callbackName));
+  // }
   // if (resourceName === 'AsyncResource') {
   //   postEvent(Events.BeforeMicrotask(asyncId));
   // }
@@ -80,7 +81,7 @@ const before = (asyncId) => {
 const after = (asyncId) => {
   const resource = asyncIdToResource[asyncId] || {};
   const resourceName = resource.constructor.name;
-  if (resourceName === 'PromiseWrap') {
+  if (resourceName === 'Promise') {
     postEvent(Events.AfterPromise(asyncId));
   }
   // if (resourceName === 'AsyncResource') {

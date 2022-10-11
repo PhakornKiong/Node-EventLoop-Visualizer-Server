@@ -4,10 +4,10 @@
   "main": "index.js",
   "license": "MIT",
   "engines": {
-    "node": "11.x"
+    "node": ">=16.x"
   },
   "scripts": {
-    "start": "node --experimental-worker index.js",
+    "start": "node index.js",
     "test": "jest"
   },
   "dependencies": {

@@ -198,12 +198,15 @@ const reduceEvents = (events) => {
     })
   );
 
-  // console.log({
-  //   resolvedPromiseIds,
-  //   promisesWithInvokedCallbacksInfo,
-  //   parentsIdsOfPromisesWithInvokedCallbacks,
-  //   parentsIdsOfMicrotasks,
-  // });
+  console.log({
+    resolvedPromiseIds,
+    promisesWithInvokedCallbacksInfo,
+    parentsIdsOfPromisesWithInvokedCallbacks,
+    promiseChildIdToParentId,
+    microtasksWithInvokedCallbacksInfo,
+    microtaskChildIdToParentId,
+    parentsIdsOfMicrotasks,
+  });
 
   return events.reduce(eventsReducer, {
     events: [],
