@@ -20,11 +20,11 @@ const init = (asyncId, type, triggerAsyncId, resource) => {
     const callbackName = resource._onImmediate.name || 'anonymous';
     postEvent(Events.InitImmediate(asyncId, callbackName));
   }
-  // if (type === 'Microtask') {
-  //   const callbackName = resource.callback.name || 'anonymous';
-  //   debug(resource);
-  //   postEvent(Events.InitMicrotask(asyncId, triggerAsyncId, callbackName));
-  // }
+  if (type === 'Microtask') {
+    const callbackName = resource.callback?.name || 'anonymous';
+    debug('Microtask: ', resource);
+    postEvent(Events.InitMicrotask(asyncId, triggerAsyncId, callbackName));
+  }
   if (
     type === 'TickObject' &&
     resource.callback.name !== 'maybeReadMore_' &&
@@ -37,7 +37,7 @@ const init = (asyncId, type, triggerAsyncId, resource) => {
     resource.callback.name !== 'finish' &&
     resource.callback.name !== 'resume_'
   ) {
-    const callbackName = resource.callback.name || 'anonymous';
+    const callbackName = resource?.callback?.name || 'microtask';
     debug(callbackName);
     postEvent(Events.InitMicrotask(asyncId, triggerAsyncId, callbackName));
   }
@@ -73,9 +73,9 @@ const before = (asyncId) => {
   //   const callbackName = resource.callback.name || 'anonymous';
   //   postEvent(Events.BeforeMicrotask(asyncId, callbackName));
   // }
-  // if (resourceName === 'AsyncResource') {
-  //   postEvent(Events.BeforeMicrotask(asyncId));
-  // }
+  if (resourceName === 'AsyncResource') {
+    postEvent(Events.BeforeMicrotask(asyncId));
+  }
 };
 
 const after = (asyncId) => {
@@ -84,9 +84,9 @@ const after = (asyncId) => {
   if (resourceName === 'Promise') {
     postEvent(Events.AfterPromise(asyncId));
   }
-  // if (resourceName === 'AsyncResource') {
-  //   postEvent(Events.AfterMicrotask(asyncId));
-  // }
+  if (resourceName === 'AsyncResource') {
+    postEvent(Events.AfterMicrotask(asyncId));
+  }
 };
 
 const destroy = (asyncId) => {
