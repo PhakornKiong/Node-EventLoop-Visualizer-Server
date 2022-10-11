@@ -3,3 +3,4 @@ node_modules
 log-app.txt
 coverage
 junit.xml
+.vscode/launch.json

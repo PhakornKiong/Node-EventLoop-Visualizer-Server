@@ -57,10 +57,12 @@ const eventsReducer = (state, evt) => {
       ({ asyncID }) => asyncID === payload.asyncID
     );
 
-    if (microtaskInfo) {
+    if (
+      (microtaskInfo) || 
+      (state.prevEvt.type==='EnterFunction' && state.prevEvt.payload.name==='queueMicrotask')) {
       state.events.push({
         type: 'EnqueueMicrotask',
-        payload: { name: microtaskInfo.name },
+        payload: { name: microtaskInfo?.name || 'microtask' },  // TODO: Get callback name for q'd µtasks
       });
     }
   }
@@ -198,12 +200,15 @@ const reduceEvents = (events) => {
     })
   );
 
-  // console.log({
-  //   resolvedPromiseIds,
-  //   promisesWithInvokedCallbacksInfo,
-  //   parentsIdsOfPromisesWithInvokedCallbacks,
-  //   parentsIdsOfMicrotasks,
-  // });
+  console.log({
+    resolvedPromiseIds,
+    promisesWithInvokedCallbacksInfo,
+    parentsIdsOfPromisesWithInvokedCallbacks,
+    promiseChildIdToParentId,
+    microtasksWithInvokedCallbacksInfo,
+    microtaskChildIdToParentId,
+    parentsIdsOfMicrotasks,
+  });
 
   return events.reduce(eventsReducer, {
     events: [],
